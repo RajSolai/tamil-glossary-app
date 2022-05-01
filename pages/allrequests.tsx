@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { GET_REQUESTS_ENDPOINT } from "../services/api";
+import { confirmRequest, GET_REQUESTS_ENDPOINT } from "../services/api";
 import { allRequestTitle } from "../services/strings";
 import { Player } from "@lottiefiles/react-lottie-player";
 
@@ -71,7 +71,12 @@ const AllRequests = (props: Props) => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small">Add to Glossary</Button>
+                      <Button
+                        size="small"
+                        onClick={() => confirmRequest(_m.requestId)}
+                      >
+                        Add to Glossary
+                      </Button>
                     </CardActions>
                   </Card>
                 </>
