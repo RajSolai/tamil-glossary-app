@@ -8,10 +8,14 @@ import {
   ListItemText,
 } from "@mui/material";
 
-import { Home, NewReleases } from "@mui/icons-material";
+import { Home, BookRounded, Add } from "@mui/icons-material";
 import React from "react";
 import { NextRouter, useRouter } from "next/router";
-import { glossaryPage, homePage } from "../../services/strings";
+import {
+  addNewWordTitle,
+  glossaryPage,
+  homePage,
+} from "../../services/strings";
 
 type Props = {
   onListItemClicked: any;
@@ -45,9 +49,22 @@ const DrawerList = (props: Props) => {
               }}
             >
               <ListItemIcon>
-                <NewReleases />
+                <BookRounded />
               </ListItemIcon>
               <ListItemText primary={glossaryPage} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding style={{ width: "50vw" }}>
+            <ListItemButton
+              onClick={() => {
+                router.push("/addnew");
+                props.onListItemClicked();
+              }}
+            >
+              <ListItemIcon>
+                <Add />
+              </ListItemIcon>
+              <ListItemText primary={"புதிய சொற்களைச் சேர்க்கவும்"} />
             </ListItemButton>
           </ListItem>
         </List>
