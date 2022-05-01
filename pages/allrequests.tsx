@@ -15,14 +15,16 @@ type Props = {};
 
 const AllRequests = (props: Props) => {
   const [requests, setRequests] = useState([]);
+  const [lc, setLc] = useState<string | null>();
 
   useEffect(() => {
     axios.get(GET_REQUESTS_ENDPOINT).then((r) => {
       setRequests(r.data["res"]);
     });
+    setLc(localStorage.getItem("oip"));
   });
 
-  if (localStorage.getItem("oip")) {
+  if (lc) {
     return (
       <div>
         <div style={{ margin: "0.5rem" }}>
