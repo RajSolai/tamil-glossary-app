@@ -4,15 +4,16 @@ import Toolbar from "@mui/material/Toolbar";
 import Drawer from "@mui/material/Drawer";
 import { Typography, Button, IconButton, Fab } from "@mui/material";
 import { Menu, Add } from "@mui/icons-material";
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, ReactNode, useState } from "react";
 import DrawerList from "./DrawerList";
 import { ThemeProvider } from "@emotion/react";
 import { customTheme } from "../../services/theme";
 import { appTitle, loginText } from "../../services/strings";
 import { NextRouter, useRouter } from "next/router";
+import { NextComponentType } from "next";
 
 type Props = {
-  children: Element;
+  children: ReactNode;
 };
 
 export const LayoutComponent = (props: Props) => {
