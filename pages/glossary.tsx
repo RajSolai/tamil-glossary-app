@@ -4,26 +4,55 @@ import {
   CardActions,
   CardContent,
   Typography,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
+import { Search } from "@mui/icons-material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { GET_GLOSSARY_ENDPOINT } from "../services/api";
-import { allRequestTitle } from "../services/strings";
+import { allRequestTitle, searchLabel } from "../services/strings";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 type Props = {};
 
+const searchBoxContainerStyle: CSSProperties = {
+  margin: "1rem",
+  justifyContent: "center",
+  alignContent: "center",
+  justifyItems: "center",
+  alignItems: "center",
+};
+
 const Glossary = (props: Props) => {
   const [requests, setRequests] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
 
   useEffect(() => {
-    axios.get(GET_GLOSSARY_ENDPOINT).then((r) => {
+    console.log("loading.......");
+    axios.get(GET_GLOSSARY_ENDPOINT + "?word=" + searchKey).then((r) => {
       setRequests(r.data["res"]);
     });
-  }, []);
+  }, [searchKey]);
 
   return (
     <div>
+      <div style={searchBoxContainerStyle}>
+        <TextField
+          style={{ width: "100%" }}
+          id="outlined-basic"
+          label={searchLabel}
+          variant="outlined"
+          onChange={(e) => setSearchKey(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
       <div style={{ margin: "0.5rem" }}>
         <div>
           {requests.length == 0 ? (
