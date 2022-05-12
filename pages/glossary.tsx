@@ -18,22 +18,37 @@ type Props = {};
 
 const searchBoxContainerStyle: CSSProperties = {
   margin: "1rem",
+  display: "flex",
+  flexDirection: "row",
   justifyContent: "center",
   alignContent: "center",
   justifyItems: "center",
   alignItems: "center",
 };
 
+const searchButtonStyle: CSSProperties = {
+  marginLeft: "1rem",
+  height: "3.2rem",
+};
+
 const Glossary = (props: Props) => {
+  const [isLoading, setLoading] = useState(true);
   const [requests, setRequests] = useState([]);
   const [searchKey, setSearchKey] = useState("");
 
-  useEffect(() => {
-    console.log("loading.......");
+  const getAllGlossaryEntries = () => {
+    setLoading(true);
     axios.get(GET_GLOSSARY_ENDPOINT + "?word=" + searchKey).then((r) => {
+      setLoading(false);
       setRequests(r.data["res"]);
+      console.log(searchKey);
+      console.log(r.data);
     });
-  }, [searchKey]);
+  };
+
+  useEffect(() => {
+    getAllGlossaryEntries();
+  }, []);
 
   return (
     <div>
@@ -43,6 +58,9 @@ const Glossary = (props: Props) => {
           id="outlined-basic"
           label={searchLabel}
           variant="outlined"
+          onKeyDown={(e) => {
+            if (e.key == "Enter") getAllGlossaryEntries();
+          }}
           onChange={(e) => setSearchKey(e.target.value)}
           InputProps={{
             startAdornment: (
@@ -52,10 +70,17 @@ const Glossary = (props: Props) => {
             ),
           }}
         />
+        <Button
+          variant="contained"
+          onClick={getAllGlossaryEntries}
+          style={searchButtonStyle}
+        >
+          <Search />
+        </Button>
       </div>
       <div style={{ margin: "0.5rem" }}>
         <div>
-          {requests.length == 0 ? (
+          {isLoading ? (
             <>
               <div
                 style={{
@@ -71,6 +96,25 @@ const Glossary = (props: Props) => {
                   style={{ height: "100px" }}
                   src="https://assets10.lottiefiles.com/packages/lf20_yyytgjwe.json"
                 />
+              </div>
+            </>
+          ) : requests.length == 0 ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Player
+                  autoplay
+                  loop
+                  // style={{ height: "100px" }}
+                  src="https://assets2.lottiefiles.com/packages/lf20_zfnngl5k.json"
+                />
+                <h5>மொழிபெயர்ப்புகள் எதுவும் கிடைக்கவில்லை</h5>
               </div>
             </>
           ) : (
