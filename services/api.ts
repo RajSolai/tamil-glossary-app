@@ -24,6 +24,7 @@ export const addNewRequest = async (englishWord: string, tamilWord: string) => {
     tamilWord,
     requestId: nanoid(8),
   };
+  Swal.fire("பதிவேறுகிறது, காத்திருக்கவும்.....");
   const out = await axios.post(NEW_REQUEST_ENDPOINT, { data: requestData });
   if (out.data.msg == "word-added") {
     Swal.fire(thankMessage);
@@ -34,6 +35,7 @@ export const addNewRequest = async (englishWord: string, tamilWord: string) => {
 
 export const confirmRequest = async (requestId: string) => {
   const out = await axios.post(CONFIRM_REQUEST_ENDPOINT, { id: requestId });
+  Swal.fire("பதிவேறுகிறது, காத்திருக்கவும்.....");
   if (out.data.msg == "word-added") {
     Swal.fire(thankMessage);
   } else {
